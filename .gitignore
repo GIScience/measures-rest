@@ -1,0 +1,6 @@
+.idea/**
+*.db
+*.iml
+*/.swp
+target/**
+
