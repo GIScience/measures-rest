@@ -2,8 +2,8 @@ package org.giscience.measures.rest.cache;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.giscience.measures.rest.measure.Measure;
+import org.giscience.measures.rest.utils.BoundingBox;
 import org.giscience.utils.geogrid.geometry.GridCell;
-import org.heigit.bigspatialdata.oshdb.util.BoundingBox;
 
 import java.util.Collection;
 import java.util.Collections;

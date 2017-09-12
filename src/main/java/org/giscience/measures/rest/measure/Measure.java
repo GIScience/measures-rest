@@ -1,11 +1,11 @@
 package org.giscience.measures.rest.measure;
 
-import org.giscience.measures.rest.response.ResponseError;
 import org.giscience.measures.rest.cache.Cache;
 import org.giscience.measures.rest.response.ResponseData;
+import org.giscience.measures.rest.response.ResponseError;
+import org.giscience.measures.rest.utils.BoundingBox;
 import org.giscience.utils.geogrid.geometry.GridCell;
 import org.giscience.utils.geogrid.grids.ISEA3H;
-import org.heigit.bigspatialdata.oshdb.util.BoundingBox;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -48,9 +48,9 @@ public abstract class Measure<R> {
         this._grid = new ISEA3H(resolution);
 
         // create response
-        BoundingBox bbox = new BoundingBox(bboxDoubles.get(0), bboxDoubles.get(2), bboxDoubles.get(1), bboxDoubles.get(3));
+        BoundingBox bbox = new BoundingBox(bboxDoubles.get(2), bboxDoubles.get(3), bboxDoubles.get(0), bboxDoubles.get(1));
         double buffer = this._grid.bufferEstimator(bbox.minLat, bbox.maxLat, bbox.minLon, bbox.maxLon);
-        BoundingBox bbox2 = new BoundingBox(bbox.minLon - buffer, bbox.maxLon + buffer, Math.max(bbox.minLat - buffer, -90), Math.min(bbox.maxLat + buffer, 90));
+        BoundingBox bbox2 = new BoundingBox(Math.max(bbox.minLat - buffer, -90), Math.min(bbox.maxLat + buffer, 90), bbox.minLon - buffer, bbox.maxLon + buffer);
         try {
             Collection<GridCell> gridCells = this._grid.cellsForBound(bbox2.minLat, bbox2.maxLat, bbox2.minLon, bbox2.maxLon);
             SortedMap<GridCell, R> result = this._cache.getData(this, bbox2, gridCells, bbox3 -> {

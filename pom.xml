@@ -39,16 +39,6 @@
             <version>2.25.1</version>
         </dependency>
         <dependency>
-            <groupId>org.heigit.bigspatialdata</groupId>
-            <artifactId>oshdb-h2</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.heigit.bigspatialdata</groupId>
-            <artifactId>oshdb-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.giscience.utils.geogrid</groupId>
             <artifactId>geogrid</artifactId>
             <version>0.0.1-SNAPSHOT</version>
