@@ -48,7 +48,7 @@ public abstract class Measure<R> {
         this._grid = new ISEA3H(resolution);
 
         // create response
-        BoundingBox bbox = new BoundingBox(bboxDoubles.get(2), bboxDoubles.get(3), bboxDoubles.get(0), bboxDoubles.get(1));
+        BoundingBox bbox = new BoundingBox(bboxDoubles.get(1), bboxDoubles.get(3), bboxDoubles.get(0), bboxDoubles.get(2));
         double buffer = this._grid.bufferEstimator(bbox.minLat, bbox.maxLat, bbox.minLon, bbox.maxLon);
         BoundingBox bbox2 = new BoundingBox(Math.max(bbox.minLat - buffer, -90), Math.min(bbox.maxLat + buffer, 90), bbox.minLon - buffer, bbox.maxLon + buffer);
         try {
