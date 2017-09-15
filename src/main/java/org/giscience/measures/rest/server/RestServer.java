@@ -22,15 +22,24 @@ public class RestServer {
         this(8080);
     }
 
-    public RestServer(URI baseUrl) {
-        this(8080, baseUrl, new CacheMemory());
-    }
-
     public RestServer(int port) {
-        this(port, UriBuilder.fromPath("/").scheme("http").host("localhost").port(port).build(), new CacheMemory());
+        this(UriBuilder.fromPath("/").scheme("http").host("localhost").port(port).build());
     }
 
-    public RestServer(int port, URI baseUrl, Cache cache) {
+    public RestServer(URI baseUrl) {
+        this._baseUrl = baseUrl;
+        this._cache = new CacheMemory();
+    }
+
+    public RestServer(Cache cache) {
+        this(UriBuilder.fromPath("/").scheme("http").host("localhost").port(8080).build(), cache);
+    }
+
+    public RestServer(int port, Cache cache) {
+        this(UriBuilder.fromPath("/").scheme("http").host("localhost").port(port).build(), cache);
+    }
+
+    public RestServer(URI baseUrl, Cache cache) {
         this._baseUrl = baseUrl;
         this._cache = cache;
     }
