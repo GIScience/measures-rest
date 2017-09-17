@@ -11,6 +11,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
@@ -56,7 +58,7 @@ public abstract class Measure<R> {
         // parse date parameter
         ZonedDateTime date;
         try {
-            date = (dateString.isEmpty()) ? ZonedDateTime.now(UTC).with(TemporalAdjusters.firstDayOfMonth()).truncatedTo(DAYS) : ZonedDateTime.parse(dateString, ISO_LOCAL_DATE);
+            date = (dateString.isEmpty()) ? ZonedDateTime.now(UTC).with(TemporalAdjusters.firstDayOfMonth()).truncatedTo(DAYS) : ZonedDateTime.of(LocalDate.parse(dateString, ISO_LOCAL_DATE), LocalTime.MIDNIGHT, UTC);
         } catch (DateTimeParseException e) {
             return ResponseError.create("Parameter \"date\" not in correct format. (No valid date)");
         }
@@ -64,7 +66,7 @@ public abstract class Measure<R> {
         // parse dateFrom parameter
         ZonedDateTime dateFrom;
         try {
-            dateFrom = (dateFromString.isEmpty()) ? null : ZonedDateTime.parse(dateFromString, ISO_LOCAL_DATE);
+            dateFrom = (dateFromString.isEmpty()) ? null : ZonedDateTime.of(LocalDate.parse(dateFromString, ISO_LOCAL_DATE), LocalTime.MIDNIGHT, UTC);
         } catch (DateTimeParseException e) {
             return ResponseError.create("Parameter \"dateFrom\" not in correct format. (No valid date)");
         }
