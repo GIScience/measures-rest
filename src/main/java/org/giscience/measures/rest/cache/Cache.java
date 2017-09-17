@@ -37,7 +37,7 @@ public abstract class Cache {
                 // make computation and save
                 List<Double> lats = todo.stream().map(GridCell::getLat).collect(Collectors.toList());
                 List<Double> lons = todo.stream().map(GridCell::getLon).collect(Collectors.toList());
-                result.putAll(compute.apply(new BoundingBox(Collections.min(lons), Collections.max(lons), Collections.min(lats), Collections.max(lats))));
+                result.putAll(compute.apply(new BoundingBox(Collections.min(lats), Collections.max(lats), Collections.min(lons), Collections.max(lons))));
                 for (GridCell gc : gridCells) result.putIfAbsent(gc, null);
                 this.saveToCache(m, date, dateFrom, result);
             }
