@@ -13,13 +13,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class Cache {
-    protected abstract boolean isCacheEmpty(Measure m);
+    protected abstract <R> boolean isCacheEmpty(Measure<R> m);
 
-    protected abstract <R> Pair<SortedMap<GridCell, R>, List<GridCell>> readFromCache(Measure m, Collection<GridCell> gridCells);
+    protected abstract <R> Pair<SortedMap<GridCell, R>, List<GridCell>> readFromCache(Measure<R> m, Collection<GridCell> gridCells);
 
-    protected abstract <R> void saveToCache(Measure m, SortedMap<GridCell, R> data);
+    protected abstract <R> void saveToCache(Measure<R> m, SortedMap<GridCell, R> data);
 
-    public <R> SortedMap<GridCell, R> getData(Measure m, BoundingBox bbox, Collection<GridCell> gridCells, Function<BoundingBox, SortedMap<GridCell, R>> compute) {
+    public <R> SortedMap<GridCell, R> getData(Measure<R> m, BoundingBox bbox, Collection<GridCell> gridCells, Function<BoundingBox, SortedMap<GridCell, R>> compute) {
         SortedMap<GridCell, R> result;
         if (this.isCacheEmpty(m)) {
             // make computation and save

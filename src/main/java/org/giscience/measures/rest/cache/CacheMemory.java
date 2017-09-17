@@ -11,12 +11,12 @@ public class CacheMemory extends Cache {
     private SortedMap<String, SortedMap<GridCell, Object>> _cache = new TreeMap<>();
 
     @Override
-    protected boolean isCacheEmpty(Measure m) {
+    protected <R> boolean isCacheEmpty(Measure<R> m) {
         return (this._cache.get(m.getId()) == null);
     }
 
     @Override
-    protected <R> Pair<SortedMap<GridCell, R>, List<GridCell>> readFromCache(Measure m, Collection<GridCell> gridCells) {
+    protected <R> Pair<SortedMap<GridCell, R>, List<GridCell>> readFromCache(Measure<R> m, Collection<GridCell> gridCells) {
         SortedMap<GridCell, Object> cache = this._cache.getOrDefault(m.getId(), new TreeMap<>());
         SortedMap<GridCell, R> result = new TreeMap<>();
         List<GridCell> todo = new ArrayList<>();
@@ -28,7 +28,7 @@ public class CacheMemory extends Cache {
     }
 
     @Override
-    protected <R> void saveToCache(Measure m, SortedMap<GridCell, R> data) {
+    protected <R> void saveToCache(Measure<R> m, SortedMap<GridCell, R> data) {
         SortedMap<GridCell, Object> cache = this._cache.getOrDefault(m.getId(), new TreeMap<>());
         cache.putAll(data);
         this._cache.put(m.getId(), cache);
