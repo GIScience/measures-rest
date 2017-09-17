@@ -26,7 +26,7 @@ public class MeasureExample extends Measure<R> {
     public static final String name = "measure-example";
 
     @Override
-    protected SortedMap<GridCell, R> compute(BoundingBox bbox) throws Exception {
+    protected SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom) throws Exception {
         // implement the measure here
     }
 }
@@ -34,7 +34,7 @@ public class MeasureExample extends Measure<R> {
 
 Observe that the measure contains a name (‘measure-empty’ in that case), which is also provided to the decorator `Path`.  The name is, among others, used to identify the particular measure in the REST interface.  The above code needs usually just to be copied and can, apart from an adaption of the class name and the variable `name`, stay unmodified.
 
-The method `compute` needs to be overwritten by an implementation of the actual measure.  The bounding box for which data should be aggregated is provided as a parameter.  The result is a `SortedMap` with `GridCell` as keys and `R` as values.  Here, `GridCell` refers to the corresponding class of the library [geogrid](https://github.com/giscience/geogrid), which represents a grid cell.  The aggregation has to be implemented manually though it can use the functions provided by geogrid.  In particular, the `GridCell` for a tuple of coordinates can be computed as
+The method `compute` needs to be overwritten by an implementation of the actual measure.  The bounding box for which data should be aggregated is provided as parameter `bbox`; the date to compute the measure for, as parameter `date`; and, in case that the measure refers to a time span, the start of the timespan, as parameter `dateFrom`.  The result is a `SortedMap` with `GridCell` as keys and `R` as values.  Here, `GridCell` refers to the corresponding class of the library [geogrid](https://github.com/giscience/geogrid), which represents a grid cell.  The aggregation has to be implemented manually though it can use the functions provided by geogrid.  In particular, the `GridCell` for a tuple of coordinates can be computed as
 ```java
 this._grid.cellForLocation(lat, lon);
 ```
@@ -76,7 +76,7 @@ restServer.run();
 
 When having started the server, the registered measures can be accessed by the REST interface, which runs on `http://localhost:8080` by default.  A measure named `measure-example` can accordingly be evaluated by referring to `http://localhost:8080/api/measure-example`.  As parameters, the resolution of the grid and the bounding box need to be provided.  The complete URL is, for example, as follows:
 
-[`http://localhost:8080/api/measure-example/grid?bbox=7.86,48.16,9.53,50.63&resolution=14`](http://localhost:8080/api/measure-example/grid?bbox=7.86,48.16,9.53,50.63&resolution=14)
+[`http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63`](http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63)
 
 Here, the bounding box is provided as minimum and maximum of the longitude and the latitude respectively.  As a result, a JSON file is returned which consists of the identifiers (IDs) of the grid cells (see [geogrid](https://github.com/giscience/geogrid)), as well as of the corresponding value of the measure:
 
@@ -84,6 +84,7 @@ Here, the bounding box is provided as minimum and maximum of the longitude and t
 {
     "type":"grid",
     "resolution":14,
+    "date":"2017-09-01T00:00Z",
     "data":[
         {"value":.345, "id":"1309502766029885663"},
         {"value":.784, "id":"1309502815023667023"},
@@ -97,9 +98,16 @@ Here, the bounding box is provided as minimum and maximum of the longitude and t
 }
 ```
 
+A measure can either refer to a certain point in time, represented by the parameter `date`, or to a time span represented by the parameters `dateFrom` and `date`.  The parameter `dateFrom` is omitted in the result if it is `null`, and instead of a time span, the measure is evaluated for a certain point in time.  If the parameter `date` is omitted in the URL, it is defaulted to the start of the current month.  Both parameters, `dateFrom` and `date` need to be provided as `yyyy-MM-dd`, as in the following examples:
+
+[`http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&date=2017-09-01`](http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&date=2017-09-01)
+
+[`http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&date=2017-09-01&dateFrom=2015-09-01`](http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&date=2017-09-01&dateFrom=2015-09-01)
+
+
 If the file should in addition contain the coordinates, the parameter `latLng` needs to be set to `true`:
 
-[`http://localhost:8080/api/measure-example/grid?bbox=7.86,48.16,9.53,50.63&resolution=14&latLng=true`](http://localhost:8080/api/measure-example/grid?bbox=7.86,48.16,9.53,50.63&resolution=14&latLng=true)
+[`http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&latLng=true`](http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&latLng=true)
 
 Accordingly, the result contains the corresponding coordinates of the centroid of the corresponding cell:
 
@@ -107,6 +115,7 @@ Accordingly, the result contains the corresponding coordinates of the centroid o
 {{
     "type":"grid",
     "resolution":14,
+    "date":"2017-09-01T00:00Z",
     "data":[
         {"value":.345, "id":"1309502766029885663", "lat":9.502766309434305, "lon":29.8856629972524},
         {"value":.784, "id":"1309502815023667023", "lat":9.502814964223331, "lon":23.667023156128714},

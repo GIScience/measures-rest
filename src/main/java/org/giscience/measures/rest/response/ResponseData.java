@@ -1,9 +1,11 @@
 package org.giscience.measures.rest.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.giscience.utils.geogrid.geometry.GridCell;
 
 import javax.ws.rs.core.Response;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.stream.Collectors;
@@ -11,20 +13,24 @@ import java.util.stream.Collectors;
 public class ResponseData<T> {
     private final String _type;
     private final int _resolution;
+    private final ZonedDateTime _date;
+    private final ZonedDateTime _dateFrom;
     private final List<GridCellValuePair<T>> _data;
 
-    public ResponseData(String type, int resolution, List<GridCellValuePair<T>> data) {
+    public ResponseData(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, List<GridCellValuePair<T>> data) {
         this._type = type;
         this._resolution = resolution;
+        this._date = date;
+        this._dateFrom = dateFrom;
         this._data = data;
     }
 
-    public static Response create(String type, int resolution, List<GridCellValuePair> data) {
-        return Response.status(200).entity(new ResponseData(type, resolution, data)).build();
+    public static Response create(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, List<GridCellValuePair> data) {
+        return Response.status(200).entity(new ResponseData(type, resolution, date, dateFrom, data)).build();
     }
 
-    public static Response create(String type, int resolution, SortedMap<GridCell, ?> data, boolean latLng) {
-        return ResponseData.create(type, resolution, data.entrySet().stream().map(e -> (latLng) ? new GridCellValuePairWithLatLng(e.getKey().getId(), e.getKey().getLat(), e.getKey().getLon(), e.getValue()) : new GridCellValuePair(e.getKey().getId(), e.getKey().getLat(), e.getKey().getLon(), e.getValue())).collect(Collectors.toList()));
+    public static Response create(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, SortedMap<GridCell, ?> data, boolean latLng) {
+        return ResponseData.create(type, resolution, date, dateFrom, data.entrySet().stream().map(e -> (latLng) ? new GridCellValuePairWithLatLng(e.getKey().getId(), e.getKey().getLat(), e.getKey().getLon(), e.getValue()) : new GridCellValuePair(e.getKey().getId(), e.getKey().getLat(), e.getKey().getLon(), e.getValue())).collect(Collectors.toList()));
     }
 
     public String getType() {
@@ -33,6 +39,16 @@ public class ResponseData<T> {
 
     public int getResolution() {
         return this._resolution;
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public String getDate() {
+        return (this._date != null) ? this._date.toString() : null;
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public String getDateFrom() {
+        return (this._dateFrom != null) ? this._dateFrom.toString() : null;
     }
 
     public List<GridCellValuePair<T>> getData() {
