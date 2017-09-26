@@ -9,10 +9,6 @@ import java.time.ZonedDateTime;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-/**
- *
- * @author Franz-Benjamin Mocnik
- */
 @Path("api/" + MeasureEmpty.name)
 public class MeasureEmpty extends Measure<Double> {
     public static final String name = "measure-empty";

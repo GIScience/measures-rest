@@ -8,6 +8,10 @@ import org.giscience.utils.geogrid.geometry.GridCell;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+/**
+ *
+ * @author Franz-Benjamin Mocnik
+ */
 public class CacheMemory extends Cache {
     private SortedMap<String, SortedMap<String, SortedMap<String, SortedMap<GridCell, Object>>>> _cache = new TreeMap<>();
 

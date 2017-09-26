@@ -12,6 +12,10 @@ import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.net.URI;
 
+/**
+ *
+ * @author Franz-Benjamin Mocnik
+ */
 public class RestServer {
     private final URI _baseUrl;
     private final ResourceConfig _resourceConfig = new ResourceConfig();

@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * @author Franz-Benjamin Mocnik
+ */
 public class ResponseData<T> {
     private final String _type;
     private final int _resolution;

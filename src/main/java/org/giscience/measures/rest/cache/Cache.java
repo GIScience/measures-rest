@@ -13,6 +13,10 @@ import java.util.SortedMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * @author Franz-Benjamin Mocnik
+ */
 public abstract class Cache {
     protected abstract <R> boolean isCacheEmpty(Measure<R> m);
 

@@ -1,5 +1,9 @@
 package org.giscience.measures.rest.utils;
 
+/**
+ *
+ * @author Franz-Benjamin Mocnik
+ */
 public class BoundingBox {
     public final double minLat;
     public final double maxLat;
