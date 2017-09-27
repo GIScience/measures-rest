@@ -34,7 +34,7 @@ public class ResponseData<T> {
     }
 
     public static Response create(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, SortedMap<GridCell, ?> data, boolean latLng) {
-        return ResponseData.create(type, resolution, date, dateFrom, data.entrySet().stream().map(e -> (latLng) ? new GridCellValuePairWithLatLng(e.getKey().getId(), e.getKey().getLat(), e.getKey().getLon(), e.getValue()) : new GridCellValuePair(e.getKey().getId(), e.getKey().getLat(), e.getKey().getLon(), e.getValue())).collect(Collectors.toList()));
+        return ResponseData.create(type, resolution, date, dateFrom, data.entrySet().stream().map(e -> (latLng) ? new GridCellValuePairWithLatLng(e.getKey().getID(), e.getKey().getLat(), e.getKey().getLon(), e.getValue()) : new GridCellValuePair(e.getKey().getID(), e.getKey().getLat(), e.getKey().getLon(), e.getValue())).collect(Collectors.toList()));
     }
 
     public String getType() {
