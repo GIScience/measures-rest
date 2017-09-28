@@ -146,7 +146,7 @@ RestServer restServer = new RestServer("http://localhost:8080", new CacheMemory(
 
 ## Visualization
 
-The REST interface of this framework is compatible with the JavaScript library [geogrid](https://github.com/giscience/geogrid), which visualizes measures as a layer to [Leaflet](http://leafletjs.com):
+The REST interface of this framework is compatible with the JavaScript library [geogrid.js](https://github.com/giscience/geogrid.js), which visualizes measures as a layer to [Leaflet](http://leafletjs.com):
 
 ![Overview](https://github.com/giscience/geogrid.js/blob/master/docs/images/screenshot.jpg)
 
