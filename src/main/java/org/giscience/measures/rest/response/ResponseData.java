@@ -2,7 +2,7 @@ package org.giscience.measures.rest.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.giscience.utils.geogrid.geometry.GridCell;
+import org.giscience.utils.geogrid.cells.GridCell;
 
 import javax.ws.rs.core.Response;
 import java.time.ZonedDateTime;

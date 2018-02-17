@@ -3,7 +3,7 @@ package org.giscience.measures.rest.cache;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.giscience.measures.rest.measure.Measure;
-import org.giscience.utils.geogrid.geometry.GridCell;
+import org.giscience.utils.geogrid.cells.GridCell;
 
 import java.time.ZonedDateTime;
 import java.util.*;

@@ -4,7 +4,7 @@ import org.giscience.measures.rest.cache.Cache;
 import org.giscience.measures.rest.response.ResponseData;
 import org.giscience.measures.rest.response.ResponseError;
 import org.giscience.measures.rest.utils.BoundingBox;
-import org.giscience.utils.geogrid.geometry.GridCell;
+import org.giscience.utils.geogrid.cells.GridCell;
 import org.giscience.utils.geogrid.grids.ISEA3H;
 
 import javax.ws.rs.*;

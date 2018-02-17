@@ -2,7 +2,7 @@ package org.giscience.measures.example;
 
 import org.giscience.measures.rest.measure.Measure;
 import org.giscience.measures.rest.utils.BoundingBox;
-import org.giscience.utils.geogrid.geometry.GridCell;
+import org.giscience.utils.geogrid.cells.GridCell;
 
 import javax.ws.rs.Path;
 import java.time.ZonedDateTime;
