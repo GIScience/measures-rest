@@ -42,7 +42,7 @@ public abstract class Measure<R> {
     @GET
     @Path("/grid")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getResponse(@QueryParam("resolution") Integer resolution, @QueryParam("bbox") String bboxString, @DefaultValue("") @QueryParam("date") String dateString, @DefaultValue("") @QueryParam("dateFrom") String dateFromString, @DefaultValue("false") @QueryParam("latLng") boolean latLng) throws Exception {
+    public Response getResponse(@QueryParam("resolution") Integer resolution, @QueryParam("bbox") String bboxString, @DefaultValue("false") @QueryParam("latLng") boolean latLng, @DefaultValue("") @QueryParam("date") String dateString, @DefaultValue("") @QueryParam("dateFrom") String dateFromString) throws Exception {
         // separate lat and lon values
         List<String> bboxStrings = Arrays.asList(bboxString.split(","));
 
