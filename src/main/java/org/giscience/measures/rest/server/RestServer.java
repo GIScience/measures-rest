@@ -3,6 +3,7 @@ package org.giscience.measures.rest.server;
 import org.giscience.measures.rest.measure.Measure;
 import org.giscience.measures.rest.cache.Cache;
 import org.giscience.measures.rest.cache.CacheMemory;
+import org.giscience.utils.geogrid.cells.GridCellIDType;
 import org.glassfish.grizzly.http.CompressionConfig;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -20,6 +21,7 @@ public class RestServer {
     private final URI _baseUrl;
     private final ResourceConfig _resourceConfig = new ResourceConfig();
     private final Cache _cache;
+    private GridCellIDType _gridCellIDType = GridCellIDType.ADAPTIVE_1_PERCENT;
     private boolean _compression;
 
     public RestServer() {
@@ -48,12 +50,17 @@ public class RestServer {
         this._cache = cache;
     }
 
+    public void setGridCellIDType(GridCellIDType gridCellIDType) {
+        this._gridCellIDType = gridCellIDType;
+    }
+
     public void disableCompression() {
         this._compression = false;
     }
 
     public RestServer register(Measure m) {
         m.setCache(this._cache);
+        m.setGridCellIDType(this._gridCellIDType);
         this._resourceConfig.register(m);
         return this;
     }

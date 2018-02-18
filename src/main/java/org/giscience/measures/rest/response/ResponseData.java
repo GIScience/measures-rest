@@ -3,6 +3,7 @@ package org.giscience.measures.rest.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.giscience.utils.geogrid.cells.GridCell;
+import org.giscience.utils.geogrid.cells.GridCellIDType;
 
 import javax.ws.rs.core.Response;
 import java.time.ZonedDateTime;
@@ -33,8 +34,8 @@ public class ResponseData<T> {
         return Response.status(200).entity(new ResponseData(type, resolution, date, dateFrom, data)).build();
     }
 
-    public static Response create(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, SortedMap<GridCell, ?> data, boolean latLng) {
-        return ResponseData.create(type, resolution, date, dateFrom, data.entrySet().stream().map(e -> (latLng) ? new GridCellValuePairWithLatLng(e.getKey().getID(), e.getKey().getLat(), e.getKey().getLon(), e.getValue()) : new GridCellValuePair(e.getKey().getID(), e.getKey().getLat(), e.getKey().getLon(), e.getValue())).collect(Collectors.toList()));
+    public static Response create(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, SortedMap<GridCell, ?> data, GridCellIDType gridCellIDType, boolean latLng) {
+        return ResponseData.create(type, resolution, date, dateFrom, data.entrySet().stream().map(e -> (latLng) ? new GridCellValuePairWithLatLng(e.getKey().getID(gridCellIDType), e.getKey().getLat(), e.getKey().getLon(), e.getValue()) : new GridCellValuePair(e.getKey().getID(gridCellIDType), e.getKey().getLat(), e.getKey().getLon(), e.getValue())).collect(Collectors.toList()));
     }
 
     public String getType() {

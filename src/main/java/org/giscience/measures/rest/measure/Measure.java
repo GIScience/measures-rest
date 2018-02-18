@@ -5,6 +5,7 @@ import org.giscience.measures.rest.response.ResponseData;
 import org.giscience.measures.rest.response.ResponseError;
 import org.giscience.measures.rest.utils.BoundingBox;
 import org.giscience.utils.geogrid.cells.GridCell;
+import org.giscience.utils.geogrid.cells.GridCellIDType;
 import org.giscience.utils.geogrid.grids.ISEA3H;
 
 import javax.ws.rs.*;
@@ -32,11 +33,16 @@ import static java.time.temporal.ChronoUnit.DAYS;
  */
 public abstract class Measure<R> {
     private Cache _cache;
+    private GridCellIDType _gridCellIDType;
     protected ISEA3H _grid;
     SimpleDateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public void setCache(Cache cache) {
         this._cache = cache;
+    }
+
+    public void setGridCellIDType(GridCellIDType gridCellIDType) {
+        this._gridCellIDType = gridCellIDType;
     }
 
     @GET
@@ -88,7 +94,7 @@ public abstract class Measure<R> {
                     throw new RuntimeException(e);
                 }
             });
-            return ResponseData.create("grid", resolution, date, dateFrom, result, latLng);
+            return ResponseData.create("grid", resolution, date, dateFrom, result, this._gridCellIDType, latLng);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseError.create("Unknown computation error");

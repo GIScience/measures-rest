@@ -41,6 +41,8 @@ this._grid.cellForLocation(lat, lon);
 
 ## Running the REST Server
 
+### Initializing and running the server
+
 The REST server can easily be instantiated as
 
 ```java
@@ -71,6 +73,17 @@ Finally, the server can be started:
 ```java
 restServer.run();
 ```
+
+### Additional Settings
+
+In case that a certain type of cell IDs shall be used, e.g., `NON_ADAPTIVE` IDs, the server can be informed to do so before it is run:
+
+```java
+restServer.setGridCellIDType(GridCellIDType.ADAPTIVE_UNIQUE);
+restServer.run();
+```
+
+The default value is `ADAPTIVE_1_PERCENT`. For further information refer to [**geogrid**](https://github.com/giscience/geogrid).
 
 ## Accessing a Measure by the REST Interface
 
