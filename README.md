@@ -98,12 +98,29 @@ Here, the bounding box is provided as minimum and maximum of the longitude and t
 }
 ```
 
+## Parameters
+
+### Overview
+
+The followig parameters are available:
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `resolution` | Integer | mandatory | Resolution of the grid, which is to be used for aggregating the data resulting from the evaluation of the measure. |
+| `bbox` | Integer, Integer, Integer, Integer | mandatory | Bounding box, provided as `minLon`, `minLat`, `maxLon`, and `maxLat`. |
+| `latLng` | Boolean | `false` | Result contains the coordinates (latitude and longitude) explicitly if `latLng` is `true`. |
+| `date` | Date | mandatory | Date, or end of the time span, to evaluate the measure for. |
+| `dateFrom` | Date | `null` | Start of the time span to evaluate the measure for. |
+
+### Parameters `dateFrom` and `date`
+
 A measure can either refer to a certain point in time, represented by the parameter `date`, or to a time span represented by the parameters `dateFrom` and `date`.  The parameter `dateFrom` is omitted in the result if it is `null`, and instead of a time span, the measure is evaluated for a certain point in time.  If the parameter `date` is omitted in the URL, it is defaulted to the start of the current month.  Both parameters, `dateFrom` and `date` need to be provided as `yyyy-MM-dd`, as in the following examples:
 
 [`http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&date=2017-09-01`](http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&date=2017-09-01)
 
 [`http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&date=2017-09-01&dateFrom=2015-09-01`](http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&date=2017-09-01&dateFrom=2015-09-01)
 
+### Parameter `latLng`
 
 If the file should in addition contain the coordinates, the parameter `latLng` needs to be set to `true`:
 
