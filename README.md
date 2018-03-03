@@ -10,9 +10,11 @@ The framework provided by this repository is a framework only: if measures are p
 
 ## Related Software
 
-There exist different extensions that aid in implementing a measure for specific data sources:
+Several extensions will be published, which allow to implement measures for specific data sources.  They will be announced soon.
 
-* [**Measure Rest OSHDB.**](https://github.com/giscience/measure-rest-oshdb) This extension aids in implementing measures that consume data from the [HeiGIT OSHDB](???).
+<!-- There exist different extensions that aid in implementing a measure for specific data sources:
+
+* [**Measure Rest OSHDB.**](https://github.com/giscience/measure-rest-oshdb) This extension aids in implementing measures that consume data from the [HeiGIT OSHDB](???). -->
 
 In addition, the REST interface is compatible with the JavaScript library [**geogrid.js**](https://github.com/giscience/geogrid.js), which visualizes measures as a layer to [Leaflet](http://leafletjs.com).  This framework makes extensive use of the library [**geogrid**](https://github.com/giscience/geogrid) that computes and handles Discrete Global Grid Systems (DGGS).
 
@@ -186,7 +188,7 @@ This software is written and maintained by Franz-Benjamin Mocnik, <mocnik@uni-he
 
 The development has been supported by the DFG project *A framework for measuring the fitness for purpose of OpenStreetMap data based on intrinsic quality indicators* (FA 1189/3-1).
 
-(c) by Heidelberg University, 2017.
+(c) by Heidelberg University, 2017–2018.
 
 ## License
 
