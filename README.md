@@ -99,7 +99,7 @@ When having started the server, the registered measures can be accessed by the R
 
 [`http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63`](http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63)
 
-Here, the bounding box is provided as minimum and maximum of the longitude and the latitude respectively.  As a result, a JSON file is returned which consists of the identifiers (IDs) of the grid cells (see [geogrid](https://github.com/giscience/geogrid)), as well as of the corresponding value of the measure:
+Here, the bounding box is provided as minimum and maximum of the longitude and the latitude respectively (more information below in the description of the parameters).  As a result, a JSON file is returned which consists of the identifiers (IDs) of the grid cells (see [geogrid](https://github.com/giscience/geogrid)), as well as of the corresponding value of the measure:
 
 ```json
 {
@@ -128,7 +128,7 @@ The followig parameters are available:
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `resolution` | Integer | mandatory | Resolution of the grid, which is to be used for aggregating the data resulting from the evaluation of the measure. |
-| `bbox` | Integer, Integer, Integer, Integer | mandatory | Bounding box, provided as `minLon`, `minLat`, `maxLon`, and `maxLat`. |
+| `bbox` | Number, Number, Number, Number | mandatory | Bounding box, provided as `minLon`, `minLat`, `maxLon`, and `maxLat` (in this order). |
 | `latLng` | Boolean | `false` | Result contains the coordinates (latitude and longitude) explicitly if `latLng` is `true`. |
 | `date` | Date | mandatory | Date, or end of the time span, to evaluate the measure for. |
 | `dateFrom` | Date | `null` | Start of the time span to evaluate the measure for. |
