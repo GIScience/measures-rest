@@ -40,7 +40,7 @@ public class MeasureExample extends Measure<R> {
 }
 ```
 
-Observe that the measure contains a name (‘measure-empty’ in that case), which is also provided to the decorator `Path`.  The name is, among others, used to identify the particular measure in the REST interface.  The above code needs usually just to be copied and can, apart from an adaption of the class name and the variable `name`, stay unmodified.
+Observe that the measure contains a name (‘measure-example’ in that case), which is also provided to the decorator `Path`.  The name is, among others, used to identify the particular measure in the REST interface.  The above code needs usually just to be copied and can, apart from an adaption of the class name and the variable `name`, stay unmodified.
 
 The method `compute` needs to be overwritten by an implementation of the actual measure.  The bounding box for which data should be aggregated is provided as parameter `bbox`; the date to compute the measure for, as parameter `date`; and, in case that the measure refers to a time span, the start of the timespan, as parameter `dateFrom`.  The result is a `SortedMap` with `GridCell` as keys and `R` as values.  Here, `GridCell` refers to the corresponding class of the library [geogrid](https://github.com/giscience/geogrid), which represents a grid cell.  The aggregation has to be implemented manually though it can use the functions provided by geogrid.  In particular, the `GridCell` for a tuple of coordinates can be computed as
 ```java
