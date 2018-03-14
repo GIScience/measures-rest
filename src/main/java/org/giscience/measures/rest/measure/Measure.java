@@ -94,7 +94,9 @@ public abstract class Measure<R> {
                     throw new RuntimeException(e);
                 }
             });
-            return ResponseData.create("grid", resolution, date, dateFrom, result, this._gridCellIDType, latLng);
+            Response response = ResponseData.create("grid", resolution, date, dateFrom, result, this._gridCellIDType, latLng);
+            response.getHeaders().add("Access-Control-Allow-Origin", "*");
+            return response;
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseError.create("Unknown computation error");
