@@ -198,4 +198,4 @@ The development has been supported by the DFG project *A framework for measuring
 
 ## License
 
-The code is licensed under the [MIT license](https://github.com/giscience/measures-rest/blob/master/LICENSE.md).
+The code is licensed under the [MIT license](https://github.com/giscience/measures-rest/blob/master/LICENSE).
