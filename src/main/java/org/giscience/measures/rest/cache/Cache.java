@@ -2,6 +2,7 @@ package org.giscience.measures.rest.cache;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.giscience.measures.rest.measure.Measure;
+import org.giscience.measures.rest.server.RequestParameter;
 import org.giscience.measures.rest.utils.BoundingBox;
 import org.giscience.utils.geogrid.cells.GridCell;
 
@@ -20,20 +21,20 @@ import java.util.stream.Collectors;
 public abstract class Cache {
     protected abstract <R> boolean isCacheEmpty(Measure<R> m);
 
-    protected abstract <R> Pair<SortedMap<GridCell, R>, List<GridCell>> readFromCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, Collection<GridCell> gridCells);
+    protected abstract <R> Pair<SortedMap<GridCell, R>, List<GridCell>> readFromCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter parameter, Collection<GridCell> gridCells);
 
-    protected abstract <R> void saveToCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, SortedMap<GridCell, R> data);
+    protected abstract <R> void saveToCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter parameter, SortedMap<GridCell, R> data);
 
-    public <R> SortedMap<GridCell, R> getData(Measure<R> m, BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Collection<GridCell> gridCells, Function<BoundingBox, SortedMap<GridCell, R>> compute) {
+    public <R> SortedMap<GridCell, R> getData(Measure<R> m, BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter parameter, Collection<GridCell> gridCells, Function<BoundingBox, SortedMap<GridCell, R>> compute) {
         SortedMap<GridCell, R> result;
         if (this.isCacheEmpty(m)) {
             // make computation and save
             result = compute.apply(bbox);
             for (GridCell gc : gridCells) result.putIfAbsent(gc, null);
-            this.saveToCache(m, date, dateFrom, result);
+            this.saveToCache(m, date, dateFrom, parameter, result);
         } else {
             // read from cache
-            Pair<SortedMap<GridCell, R>, List<GridCell>> p = this.readFromCache(m, date, dateFrom, gridCells);
+            Pair<SortedMap<GridCell, R>, List<GridCell>> p = this.readFromCache(m, date, dateFrom, parameter, gridCells);
             result = p.getLeft();
             List<GridCell> todo = p.getRight();
             // detect if computation is needed
@@ -43,7 +44,7 @@ public abstract class Cache {
                 List<Double> lons = todo.stream().map(GridCell::getLon).collect(Collectors.toList());
                 result.putAll(compute.apply(new BoundingBox(Collections.min(lats), Collections.max(lats), Collections.min(lons), Collections.max(lons))));
                 for (GridCell gc : gridCells) result.putIfAbsent(gc, null);
-                this.saveToCache(m, date, dateFrom, result);
+                this.saveToCache(m, date, dateFrom, parameter, result);
             }
         }
         return result;

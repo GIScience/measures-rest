@@ -3,6 +3,7 @@ package org.giscience.measures.rest.cache;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.giscience.measures.rest.measure.Measure;
+import org.giscience.measures.rest.server.RequestParameter;
 import org.giscience.utils.geogrid.cells.GridCell;
 
 import java.time.ZonedDateTime;
@@ -13,7 +14,7 @@ import java.util.*;
  * @author Franz-Benjamin Mocnik
  */
 public class CacheMemory extends Cache {
-    private SortedMap<String, SortedMap<String, SortedMap<String, SortedMap<GridCell, Object>>>> _cache = new TreeMap<>();
+    private SortedMap<String, SortedMap<String, SortedMap<String, SortedMap<String, SortedMap<GridCell, Object>>>>> _cache = new TreeMap<>();
 
     @Override
     protected <R> boolean isCacheEmpty(Measure<R> m) {
@@ -21,10 +22,11 @@ public class CacheMemory extends Cache {
     }
 
     @Override
-    protected <R> Pair<SortedMap<GridCell, R>, List<GridCell>> readFromCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, Collection<GridCell> gridCells) {
-        SortedMap<String, SortedMap<String, SortedMap<GridCell, Object>>> cacheMeasure = this._cache.getOrDefault(m.getId(), new TreeMap<>());
-        SortedMap<String, SortedMap<GridCell, Object>> cacheDate = cacheMeasure.getOrDefault(CacheMemory._zonedDateTimeToString(date), new TreeMap<>());
-        SortedMap<GridCell, Object> cache = cacheDate.getOrDefault(CacheMemory._zonedDateTimeToString(dateFrom), new TreeMap<>());
+    protected <R> Pair<SortedMap<GridCell, R>, List<GridCell>> readFromCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter parameter, Collection<GridCell> gridCells) {
+        SortedMap<String, SortedMap<String, SortedMap<String, SortedMap<GridCell, Object>>>> cacheMeasure = this._cache.getOrDefault(m.getId(), new TreeMap<>());
+        SortedMap<String, SortedMap<String, SortedMap<GridCell, Object>>> cacheDate = cacheMeasure.getOrDefault(CacheMemory._zonedDateTimeToString(date), new TreeMap<>());
+        SortedMap<String, SortedMap<GridCell, Object>> cacheParameter = cacheDate.getOrDefault(CacheMemory._zonedDateTimeToString(dateFrom), new TreeMap<>());
+        SortedMap<GridCell, Object> cache = cacheParameter.getOrDefault(parameter.getID(), new TreeMap<>());
         SortedMap<GridCell, R> result = new TreeMap<>();
         List<GridCell> todo = new ArrayList<>();
         for (GridCell gc : gridCells) {
@@ -35,12 +37,14 @@ public class CacheMemory extends Cache {
     }
 
     @Override
-    protected <R> void saveToCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, SortedMap<GridCell, R> data) {
-        SortedMap<String, SortedMap<String, SortedMap<GridCell, Object>>> cacheMeasure = this._cache.getOrDefault(m.getId(), new TreeMap<>());
-        SortedMap<String, SortedMap<GridCell, Object>> cacheDate = cacheMeasure.getOrDefault(CacheMemory._zonedDateTimeToString(date), new TreeMap<>());
-        SortedMap<GridCell, Object> cache = cacheDate.getOrDefault(CacheMemory._zonedDateTimeToString(dateFrom), new TreeMap<>());
+    protected <R> void saveToCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter parameter, SortedMap<GridCell, R> data) {
+        SortedMap<String, SortedMap<String, SortedMap<String, SortedMap<GridCell, Object>>>> cacheMeasure = this._cache.getOrDefault(m.getId(), new TreeMap<>());
+        SortedMap<String, SortedMap<String, SortedMap<GridCell, Object>>> cacheDate = cacheMeasure.getOrDefault(CacheMemory._zonedDateTimeToString(date), new TreeMap<>());
+        SortedMap<String, SortedMap<GridCell, Object>> cacheParameter = cacheDate.getOrDefault(CacheMemory._zonedDateTimeToString(dateFrom), new TreeMap<>());
+        SortedMap<GridCell, Object> cache = cacheParameter.getOrDefault(parameter.getID(), new TreeMap<>());
         cache.putAll(data);
-        cacheDate.put(CacheMemory._zonedDateTimeToString(dateFrom), cache);
+        cacheParameter.put(parameter.getID(), cache);
+        cacheDate.put(CacheMemory._zonedDateTimeToString(dateFrom), cacheParameter);
         cacheMeasure.put(CacheMemory._zonedDateTimeToString(date), cacheDate);
         this._cache.put(m.getId(), cacheMeasure);
     }

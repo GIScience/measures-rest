@@ -34,7 +34,7 @@ public class MeasureExample extends Measure<R> {
     public static final String name = "measure-example";
 
     @Override
-    protected SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom) throws Exception {
+    protected SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter p) throws Exception {
         // implement the measure here
     }
 }
@@ -42,7 +42,9 @@ public class MeasureExample extends Measure<R> {
 
 Observe that the measure contains a name (‘measure-example’ in that case), which is also provided to the decorator `Path`.  The name is, among others, used to identify the particular measure in the REST interface.  The above code needs usually just to be copied and can, apart from an adaption of the class name and the variable `name`, stay unmodified.
 
-The method `compute` needs to be overwritten by an implementation of the actual measure.  The bounding box for which data should be aggregated is provided as parameter `bbox`; the date to compute the measure for, as parameter `date`; and, in case that the measure refers to a time span, the start of the timespan, as parameter `dateFrom`.  The result is a `SortedMap` with `GridCell` as keys and `R` as values.  Here, `GridCell` refers to the corresponding class of the library [geogrid](https://github.com/giscience/geogrid), which represents a grid cell.  The aggregation has to be implemented manually though it can use the functions provided by geogrid.  In particular, the `GridCell` for a tuple of coordinates can be computed as
+The method `compute` needs to be overwritten by an implementation of the actual measure.  The bounding box for which data should be aggregated is provided as parameter `bbox`; the date to compute the measure for, as parameter `date`; and, in case that the measure refers to a time span, the start of the timespan, as parameter `dateFrom`.  Furthermore, the computation can refer to additional parameters.  The parameter `"key"` can be accessed by `p.get("key").toString()` in case of a string parameter, `p.get("key").toInteger()` in case of an integer parameter, and `p.get("key").toDouble()` in case of a double parameter.
+
+The result is a `SortedMap` with `GridCell` as keys and `R` as values.  Here, `GridCell` refers to the corresponding class of the library [geogrid](https://github.com/giscience/geogrid), which represents a grid cell.  The aggregation has to be implemented manually though it can use the functions provided by geogrid.  In particular, the `GridCell` for a tuple of coordinates can be computed as
 ```java
 this._grid.cellForLocation(lat, lon);
 ```
@@ -123,7 +125,7 @@ Here, the bounding box is provided as minimum and maximum of the longitude and t
 
 ### Overview
 
-The followig parameters are available:
+The following parameters are available:
 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
@@ -132,6 +134,7 @@ The followig parameters are available:
 | `latLng` | Boolean | `false` | Result contains the coordinates (latitude and longitude) explicitly if `latLng` is `true`. |
 | `date` | Date | mandatory | Date, or end of the time span, to evaluate the measure for. |
 | `dateFrom` | Date | `null` | Start of the time span to evaluate the measure for. |
+| `p` | * | | Encodes all other parameters. |
 
 ### Parameters `dateFrom` and `date`
 
