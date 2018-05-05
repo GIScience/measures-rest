@@ -26,11 +26,11 @@ public class RequestParameter {
         }
 
         public Integer toInteger() {
-            return Integer.valueOf(this._value);
+            return Integer.parseInt(this._value);
         }
 
         public Double toDouble() {
-            return Double.valueOf(this._value);
+            return Double.parseDouble(this._value);
         }
     }
 

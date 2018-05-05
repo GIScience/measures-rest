@@ -134,11 +134,45 @@ The following parameters are available:
 | `latLng` | Boolean | `false` | Result contains the coordinates (latitude and longitude) explicitly if `latLng` is `true`. |
 | `date` | Date | mandatory | Date, or end of the time span, to evaluate the measure for. |
 | `dateFrom` | Date | `null` | Start of the time span to evaluate the measure for. |
+| `daysBefore` | Integer| `null` | Length of the time span (which ends at `date`) to evaluate the measure for. |
 | `p` | * | | Encodes all other parameters. |
 
 ### Parameters `dateFrom` and `date`
 
-A measure can either refer to a certain point in time, represented by the parameter `date`, or to a time span represented by the parameters `dateFrom` and `date`.  The parameter `dateFrom` is omitted in the result if it is `null`, and instead of a time span, the measure is evaluated for a certain point in time.  If the parameter `date` is omitted in the URL, it is defaulted to the start of the current month.  Both parameters, `dateFrom` and `date` need to be provided as `yyyy-MM-dd`, as in the following examples:
+A measure can either refer to a certain point in time, represented by the parameter `date`, or to a time span represented by the parameters `dateFrom`/`daysBefore` and `date`.  Whether a measure refers to a time span is determined by the function `refersToTimeSpan`.  By default, a measure refers to only one point in time:
+
+```java
+public Boolean refersToTimeSpan() {
+    return false;
+}
+```
+
+If the measure shall rather refer to a time span, it needs to be overridden:
+
+```java
+@Override
+public Boolean refersToTimeSpan() {
+    return true;
+}
+```
+
+The measure contains default values. If a parameter is missing in the URL, the default value is used instead. By default, the default parameters are set as follows:
+
+```java
+public ZonedDateTime defaultDate() {
+    return ZonedDateTime.now(UTC).with(TemporalAdjusters.firstDayOfMonth()).truncatedTo(DAYS);
+}
+public ZonedDateTime defaultDateFrom() {
+    return null;
+}
+public Integer defaultDaysBefore() {
+    return 3 * 365;
+}
+```
+
+Accordingly, if the parameter `date` is omitted in the URL, it is defaulted to the start of the current month.  If the measure refers to a time span but no parameter `dateFrom` or `daysBefore` is provided in the URL, the default values for `dateFrom` and `daysBefore` are evaluated (in this order).  If `defaultDateFrom` returns `null`, the method `defaultDaysBefore` is evaluated.  The default methods can be overriden in the implemention of a measure.
+
+Both parameters `dateFrom` and `date` need to be provided as `yyyy-MM-dd`, as in the following examples:
 
 [`http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&date=2017-09-01`](http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63&date=2017-09-01)
 
