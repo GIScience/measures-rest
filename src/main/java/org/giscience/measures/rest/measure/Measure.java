@@ -48,6 +48,10 @@ public abstract class Measure<R> {
         this._gridCellIDType = gridCellIDType;
     }
 
+    public ZonedDateTime defaultDate() {
+        return ZonedDateTime.now(UTC).with(TemporalAdjusters.firstDayOfMonth()).truncatedTo(DAYS);
+    }
+
     @GET
     @Path("/grid")
     @Produces(MediaType.APPLICATION_JSON)
@@ -67,7 +71,7 @@ public abstract class Measure<R> {
         // parse date parameter
         ZonedDateTime date;
         try {
-            date = (dateString.isEmpty()) ? ZonedDateTime.now(UTC).with(TemporalAdjusters.firstDayOfMonth()).truncatedTo(DAYS) : ZonedDateTime.of(LocalDate.parse(dateString, ISO_LOCAL_DATE), LocalTime.MIDNIGHT, UTC);
+            date = (dateString.isEmpty()) ? this.defaultDate() : ZonedDateTime.of(LocalDate.parse(dateString, ISO_LOCAL_DATE), LocalTime.MIDNIGHT, UTC);
         } catch (DateTimeParseException e) {
             return ResponseError.create("Parameter \"date\" not in correct format. (No valid date)");
         }
