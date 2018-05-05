@@ -137,7 +137,7 @@ The following parameters are available:
 | `daysBefore` | Integer| `null` | Length of the time span (which ends at `date`) to evaluate the measure for. |
 | `p` | * | | Encodes all other parameters. |
 
-### Parameters `dateFrom` and `date`
+### Parameters `days`, `dateFrom`, and `daysBefore`
 
 A measure can either refer to a certain point in time, represented by the parameter `date`, or to a time span represented by the parameters `dateFrom`/`daysBefore` and `date`.  Whether a measure refers to a time span is determined by the function `refersToTimeSpan`.  By default, a measure refers to only one point in time:
 
