@@ -59,7 +59,7 @@ The REST server can easily be instantiated as
 RestServer restServer = new RestServer();
 ```
 
-In this case, the server provides a REST interface on port 8080 for the URL `http://localhost`.  In case another port resp. URL should be used, corresponding parameters can be provided:
+In this case, the server provides a REST interface on port 8080 for the URL `http://localhost`.  In case another port or another URL should be used, corresponding parameters can be provided:
 
 ```java
 RestServer restServer = new RestServer(8080);
