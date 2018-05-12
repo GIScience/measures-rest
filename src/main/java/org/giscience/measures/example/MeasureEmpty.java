@@ -15,7 +15,7 @@ public class MeasureEmpty extends Measure<Double> {
     public static final String name = "measure-empty";
 
     @Override
-    protected SortedMap<GridCell, Double> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter p) throws Exception {
+    protected SortedMap<GridCell, Double> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter p) throws Exception {
         return new TreeMap<>();
     }
 }
