@@ -21,20 +21,20 @@ import java.util.stream.Collectors;
 public abstract class Cache {
     protected abstract <R> boolean isCacheEmpty(Measure<R> m);
 
-    protected abstract <R> Pair<SortedMap<GridCell, R>, List<GridCell>> readFromCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter parameter, Collection<GridCell> gridCells);
+    protected abstract <R> Pair<SortedMap<GridCell, R>, List<GridCell>> readFromCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter parameter, Collection<GridCell> gridCells);
 
-    protected abstract <R> void saveToCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter parameter, SortedMap<GridCell, R> data);
+    protected abstract <R> void saveToCache(Measure<R> m, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter parameter, SortedMap<GridCell, R> data);
 
-    public <R> SortedMap<GridCell, R> getData(Measure<R> m, BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter parameter, Collection<GridCell> gridCells, Function<BoundingBox, SortedMap<GridCell, R>> compute) {
+    public <R> SortedMap<GridCell, R> getData(Measure<R> m, BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter parameter, Collection<GridCell> gridCells, Function<BoundingBox, SortedMap<GridCell, R>> compute) {
         SortedMap<GridCell, R> result;
         if (this.isCacheEmpty(m)) {
             // make computation and save
             result = compute.apply(bbox);
             for (GridCell gc : gridCells) result.putIfAbsent(gc, null);
-            this.saveToCache(m, date, dateFrom, parameter, result);
+            this.saveToCache(m, date, dateFrom, intervalInDays, parameter, result);
         } else {
             // read from cache
-            Pair<SortedMap<GridCell, R>, List<GridCell>> p = this.readFromCache(m, date, dateFrom, parameter, gridCells);
+            Pair<SortedMap<GridCell, R>, List<GridCell>> p = this.readFromCache(m, date, dateFrom, intervalInDays, parameter, gridCells);
             result = p.getLeft();
             List<GridCell> todo = p.getRight();
             // detect if computation is needed
@@ -44,7 +44,7 @@ public abstract class Cache {
                 List<Double> lons = todo.stream().map(GridCell::getLon).collect(Collectors.toList());
                 result.putAll(compute.apply(new BoundingBox(Collections.min(lats), Collections.max(lats), Collections.min(lons), Collections.max(lons))));
                 for (GridCell gc : gridCells) result.putIfAbsent(gc, null);
-                this.saveToCache(m, date, dateFrom, parameter, result);
+                this.saveToCache(m, date, dateFrom, intervalInDays, parameter, result);
             }
         }
         return result;

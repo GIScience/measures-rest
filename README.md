@@ -134,7 +134,8 @@ The following parameters are available:
 | `latLng` | Boolean | `false` | Result contains the coordinates (latitude and longitude) explicitly if `latLng` is `true`. |
 | `date` | Date | mandatory | Date, or end of the time span, to evaluate the measure for. |
 | `dateFrom` | Date | `null` | Start of the time span to evaluate the measure for. |
-| `daysBefore` | Integer| `null` | Length of the time span (which ends at `date`) to evaluate the measure for. |
+| `daysBefore` | Integer | 3 * 365 | Length of the time span (which ends at `date`) to evaluate the measure for. |
+| `intervalInDays` | Integer | 30 | Interval (in days) in which the time span shall be examined. |
 | `p` | * | | Encodes all other parameters. |
 
 ### Parameters `days`, `dateFrom`, and `daysBefore`
@@ -166,7 +167,10 @@ public ZonedDateTime defaultDateFrom() {
     return null;
 }
 public Integer defaultDaysBefore() {
-    return 3 * 365;
+    return 3 * 12 * 60;
+}
+public Integer defaultIntervalInDays() {
+    return 30;
 }
 ```
 

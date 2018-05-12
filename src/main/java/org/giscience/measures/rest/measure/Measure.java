@@ -61,13 +61,17 @@ public abstract class Measure<R> {
     }
 
     public Integer defaultDaysBefore() {
-        return 3 * 365;
+        return 3 * 12 * 60;
+    }
+
+    public Integer defaultIntervalInDays() {
+        return 30;
     }
 
     @GET
     @Path("/grid")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getResponse(@QueryParam("resolution") Integer resolution, @QueryParam("bbox") String bboxString, @DefaultValue("false") @QueryParam("latLng") boolean latLng, @DefaultValue("") @QueryParam("date") String dateString, @DefaultValue("") @QueryParam("dateFrom") String dateFromString, @DefaultValue("") @QueryParam("daysBefore") String daysBeforeString, @Context UriInfo context) throws Exception {
+    public Response getResponse(@QueryParam("resolution") Integer resolution, @QueryParam("bbox") String bboxString, @DefaultValue("false") @QueryParam("latLng") boolean latLng, @DefaultValue("") @QueryParam("date") String dateString, @DefaultValue("") @QueryParam("dateFrom") String dateFromString, @DefaultValue("") @QueryParam("daysBefore") String daysBeforeString, @DefaultValue("") @QueryParam("intervalInDays") Integer intervalInDaysInteger, @Context UriInfo context) throws Exception {
         // separate lat and lon values
         List<String> bboxStrings = Arrays.asList(bboxString.split(","));
 
@@ -110,6 +114,9 @@ public abstract class Measure<R> {
         if (dateFrom == null) return ResponseError.create("The measure refers to a time span. One of the parameters \"dateFrom\" and \"daysBefore\" has to be provided. (Invalid  parameter combination)");
         ZonedDateTime dateFromFinal = dateFrom;
 
+        Integer intervalInDays;
+        intervalInDays = (intervalInDaysInteger == null) ? this.defaultIntervalInDays() : intervalInDaysInteger;
+
         // parameters
         RequestParameter parameter = new RequestParameter(context);
 
@@ -122,15 +129,15 @@ public abstract class Measure<R> {
         BoundingBox bbox2 = new BoundingBox(Math.max(bbox.minLat - buffer, -90), Math.min(bbox.maxLat + buffer, 90), bbox.minLon - buffer, bbox.maxLon + buffer);
         try {
             Collection<GridCell> gridCells = this._grid.cellsForBound(bbox2.minLat, bbox2.maxLat, bbox2.minLon, bbox2.maxLon);
-            SortedMap<GridCell, R> result = this._cache.getData(this, bbox2, date, dateFromFinal , parameter, gridCells, bbox3 -> {
+            SortedMap<GridCell, R> result = this._cache.getData(this, bbox2, date, dateFromFinal, intervalInDays, parameter, gridCells, bbox3 -> {
                 try {
-                    return this.compute(bbox3, date, dateFromFinal , parameter);
+                    return this.compute(bbox3, date, dateFromFinal, intervalInDays, parameter);
                 } catch (Exception e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
             });
-            Response response = ResponseData.create("grid", resolution, date, dateFromFinal , result, this._gridCellIDType, latLng);
+            Response response = ResponseData.create("grid", resolution, date, dateFromFinal, intervalInDays, result, this._gridCellIDType, latLng);
             response.getHeaders().add("Access-Control-Allow-Origin", "*");
             return response;
         } catch (Exception e) {
@@ -143,5 +150,5 @@ public abstract class Measure<R> {
         return this.getClass().getCanonicalName();
     }
 
-    protected abstract SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, RequestParameter p) throws Exception;
+    protected abstract SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter p) throws Exception;
 }

@@ -20,22 +20,24 @@ public class ResponseData<T> {
     private final int _resolution;
     private final ZonedDateTime _date;
     private final ZonedDateTime _dateFrom;
+    private final Integer _intervalInDays;
     private final List<GridCellValuePair<T>> _data;
 
-    public ResponseData(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, List<GridCellValuePair<T>> data) {
+    public ResponseData(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, List<GridCellValuePair<T>> data) {
         this._type = type;
         this._resolution = resolution;
         this._date = date;
         this._dateFrom = dateFrom;
+        this._intervalInDays = intervalInDays;
         this._data = data;
     }
 
-    public static Response create(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, List<GridCellValuePair> data) {
-        return Response.status(200).entity(new ResponseData(type, resolution, date, dateFrom, data)).build();
+    public static Response create(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, List<GridCellValuePair> data) {
+        return Response.status(200).entity(new ResponseData(type, resolution, date, dateFrom, intervalInDays, data)).build();
     }
 
-    public static Response create(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, SortedMap<GridCell, ?> data, GridCellIDType gridCellIDType, boolean latLng) {
-        return ResponseData.create(type, resolution, date, dateFrom, data.entrySet().stream().map(e -> (latLng) ? new GridCellValuePairWithLatLng(e.getKey().getID(gridCellIDType), e.getKey().getLat(), e.getKey().getLon(), e.getValue()) : new GridCellValuePair(e.getKey().getID(gridCellIDType), e.getKey().getLat(), e.getKey().getLon(), e.getValue())).collect(Collectors.toList()));
+    public static Response create(String type, int resolution, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, SortedMap<GridCell, ?> data, GridCellIDType gridCellIDType, boolean latLng) {
+        return ResponseData.create(type, resolution, date, dateFrom, intervalInDays, data.entrySet().stream().map(e -> (latLng) ? new GridCellValuePairWithLatLng(e.getKey().getID(gridCellIDType), e.getKey().getLat(), e.getKey().getLon(), e.getValue()) : new GridCellValuePair(e.getKey().getID(gridCellIDType), e.getKey().getLat(), e.getKey().getLon(), e.getValue())).collect(Collectors.toList()));
     }
 
     public String getType() {
@@ -54,6 +56,11 @@ public class ResponseData<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public String getDateFrom() {
         return (this._dateFrom != null) ? this._dateFrom.toString() : null;
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Integer getIntervalInDays() {
+        return this._intervalInDays;
     }
 
     public List<GridCellValuePair<T>> getData() {
