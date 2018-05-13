@@ -12,7 +12,7 @@ The framework provided by this repository is a framework only: if measures are p
 
 The following publication is related to this framework and the used DGGS:
 
-* F.-B. Mocnik: **A Novel Identifier Scheme for the ISEA Aperture 3 Hexagon Discrete Global Grid System.** Cartography and Geographic Information science, 2018, to appear
+* F-B Mocnik: **A Novel Identifier Scheme for the ISEA Aperture 3 Hexagon Discrete Global Grid System.** Cartography and Geographic Information science, 2018, to appear
 
 ## Related Software
 
