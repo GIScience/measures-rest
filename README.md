@@ -34,7 +34,7 @@ public class MeasureExample extends Measure<R> {
     public static final String name = "measure-example";
 
     @Override
-    protected SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter p) throws Exception, RequestParameterException {
+    protected SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter p) throws Exception {
         // implement the measure here
     }
 }

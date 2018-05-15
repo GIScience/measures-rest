@@ -155,5 +155,5 @@ public abstract class Measure<R> {
         return this.getClass().getCanonicalName();
     }
 
-    protected abstract SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter p) throws Exception, RequestParameterException;
+    protected abstract SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter p) throws Exception;
 }
