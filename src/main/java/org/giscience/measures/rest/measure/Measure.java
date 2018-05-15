@@ -4,6 +4,7 @@ import org.giscience.measures.rest.cache.Cache;
 import org.giscience.measures.rest.response.ResponseData;
 import org.giscience.measures.rest.response.ResponseError;
 import org.giscience.measures.rest.server.RequestParameter;
+import org.giscience.measures.rest.server.RequestParameterException;
 import org.giscience.measures.rest.utils.BoundingBox;
 import org.giscience.utils.geogrid.cells.GridCell;
 import org.giscience.utils.geogrid.cells.GridCellIDType;
@@ -132,14 +133,18 @@ public abstract class Measure<R> {
             SortedMap<GridCell, R> result = this._cache.getData(this, bbox2, date, dateFromFinal, intervalInDays, parameter, gridCells, bbox3 -> {
                 try {
                     return this.compute(bbox3, date, dateFromFinal, intervalInDays, parameter);
+                } catch (RequestParameterException e) {
+                    throw e;
                 } catch (Exception e) {
-                    e.printStackTrace();
                     throw new RuntimeException(e);
                 }
             });
             Response response = ResponseData.create("grid", resolution, date, dateFromFinal, intervalInDays, result, this._gridCellIDType, latLng);
             response.getHeaders().add("Access-Control-Allow-Origin", "*");
             return response;
+        } catch (RequestParameterException e) {
+            e.printStackTrace();
+            return ResponseError.create(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseError.create("Unknown computation error");
@@ -150,5 +155,5 @@ public abstract class Measure<R> {
         return this.getClass().getCanonicalName();
     }
 
-    protected abstract SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter p) throws Exception;
+    protected abstract SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter p) throws Exception, RequestParameterException;
 }

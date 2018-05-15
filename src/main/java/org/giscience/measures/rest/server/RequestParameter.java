@@ -38,7 +38,15 @@ public class RequestParameter {
         this._context = context;
     }
 
-    public RequestValue get(String key) {
+    public Boolean setDefault(String key, String value) {
+        if (value.startsWith("\"") && value.endsWith("\"")) value = value.substring(1, -1);
+        if (this._context.getQueryParameters().getFirst(key) != null) return false;
+        this._context.getQueryParameters().putSingle(key, value);
+        return true;
+    }
+
+    public RequestValue get(String key) throws RequestParameterException {
+        if (this._context.getQueryParameters().getFirst(key) == null) throw new RequestParameterException(key);
         return new RequestValue(this._context.getQueryParameters().getFirst(key));
     }
 
