@@ -3,6 +3,8 @@ package org.giscience.measures.rest.server;
 import javax.ws.rs.core.UriInfo;
 import java.util.Arrays;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 /**
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 public class RequestParameter {
     UriInfo _context;
     List<String> _ignoreKeys = Arrays.asList("resolution", "bbox", "latLng", "date", "dateFrom");
+    SortedMap<String, String> _defaultValues = new TreeMap<>();
 
     public class RequestValue {
         String _value;
@@ -41,12 +44,15 @@ public class RequestParameter {
     public Boolean setDefault(String key, String value) {
         if (value.startsWith("\"") && value.endsWith("\"")) value = value.substring(1, -1);
         if (this._context.getQueryParameters().getFirst(key) != null) return false;
-        this._context.getQueryParameters().putSingle(key, value);
+        this._defaultValues.putIfAbsent(key, value);
         return true;
     }
 
     public RequestValue get(String key) throws RequestParameterException {
-        if (this._context.getQueryParameters().getFirst(key) == null) throw new RequestParameterException(key);
+        if (this._context.getQueryParameters().getFirst(key) == null) {
+            if (this._defaultValues.get(key) == null) throw new RequestParameterException(key);
+            return new RequestValue(this._defaultValues.get(key));
+        }
         return new RequestValue(this._context.getQueryParameters().getFirst(key));
     }
 
