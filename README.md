@@ -167,7 +167,7 @@ public ZonedDateTime defaultDateFrom() {
     return null;
 }
 public Integer defaultDaysBefore() {
-    return 3 * 12 * 60;
+    return 3 * 12 * 30;
 }
 public Integer defaultIntervalInDays() {
     return 30;
