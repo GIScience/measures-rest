@@ -152,6 +152,10 @@ public abstract class Measure<R> {
     }
 
     public String getId() {
+        return this.getClass().getSimpleName();
+    }
+
+    public String getIdLong() {
         return this.getClass().getCanonicalName();
     }
 
