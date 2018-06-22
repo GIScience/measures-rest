@@ -75,6 +75,7 @@ public class RestServer {
 
         public void addMeasure(Measure measure) {
             String id = measure.getId().replaceAll("(?<!^)(?=[A-Z])", "-").toLowerCase();
+            if (id.startsWith("measure-")) id = id.substring(8);
             this._measures.put(id, measure);
         }
 
