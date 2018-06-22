@@ -12,7 +12,7 @@ The framework provided by this repository is a framework only: if measures are p
 
 The following publication is related to this framework and the used DGGS:
 
-* F-B Mocnik: **A Novel Identifier Scheme for the ISEA Aperture 3 Hexagon Discrete Global Grid System.** Cartography and Geographic Information science, 2018, to appear
+* F-B Mocnik: **A Novel Identifier Scheme for the ISEA Aperture 3 Hexagon Discrete Global Grid System.** Cartography and Geographic Information science, 2018.
 
 ## Related Software
 
@@ -29,10 +29,7 @@ In addition, the REST interface is compatible with the JavaScript library [**geo
 Measures always extend the class `Measure<R>`, where `R` is a generic parameter that refers to the result of the measure.  As an example, a measure returning a `Double` value always extends `Measure<Double>`.  A typical implementation of a measure looks like follows:
 
 ```java
-@Path("api/" + MeasureExample.name)
 public class MeasureExample extends Measure<R> {
-    public static final String name = "measure-example";
-
     @Override
     protected SortedMap<GridCell, R> compute(BoundingBox bbox, ZonedDateTime date, ZonedDateTime dateFrom, Integer intervalInDays, RequestParameter p) throws Exception {
         // implement the measure here
@@ -40,7 +37,7 @@ public class MeasureExample extends Measure<R> {
 }
 ```
 
-Observe that the measure contains a name (‘measure-example’ in that case), which is also provided to the decorator `Path`.  The name is, among others, used to identify the particular measure in the REST interface.  The above code needs usually just to be copied and can, apart from an adaption of the class name and the variable `name`, stay unmodified.
+Observe that the class name of the measure (`MeasureExample`) will automatically be used to identify the measure.  Among others, the name is used to identify the particular measure in the REST interface.  The name is automatically reformatted to `example` in our case.  (The prefix `Measure` is removed and following words are converted from camel-case to [kebab-case notation](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).)  The above code needs usually just to be copied and can, apart from an adaption of the class name and the method `compute`, stay unmodified.
 
 The method `compute` needs to be overwritten by an implementation of the actual measure.  The bounding box for which data should be aggregated is provided as parameter `bbox`; the date to compute the measure for, as parameter `date`; and, in case that the measure refers to a time span, the start of the timespan, as parameter `dateFrom`.  Furthermore, the computation can refer to additional parameters.  The parameter `"key"` can be accessed by `p.get("key").toString()` in case of a string parameter, `p.get("key").toInteger()` in case of an integer parameter, and `p.get("key").toDouble()` in case of a double parameter.  The default value of a parameter can be overwritten by `p.setDefault("key", "default value")`.
 
