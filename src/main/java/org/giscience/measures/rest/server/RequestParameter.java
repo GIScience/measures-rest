@@ -28,6 +28,10 @@ public class RequestParameter {
             return this._value;
         }
 
+        public Boolean toBoolean() {
+            return Boolean.parseBoolean(this._value);
+        }
+
         public Integer toInteger() {
             return Integer.parseInt(this._value);
         }
