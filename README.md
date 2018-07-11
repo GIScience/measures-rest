@@ -12,7 +12,11 @@ The framework provided by this repository is a framework only: if measures are p
 
 The following publication is related to this framework and the used DGGS:
 
-* F-B Mocnik: **A Novel Identifier Scheme for the ISEA Aperture 3 Hexagon Discrete Global Grid System.** Cartography and Geographic Information science, 2018.
+* F-B Mocnik: **Linked Open Data Vocabularies for Semantically Annotated Repositories of Data Quality Measures** Proceedings of the 10th International Conference on Geographic Information Science (GIScience), 2018
+
+* F-B Mocnik, A Mobasheri, L Griesbaum, M Eckle, C Jacobs, and C Klonner: [**A grounding-based ontology of data quality measures**](http://josis.org/index.php/josis/article/viewFile/360/197) Journal of Spatial Information Science, 16, 2018
+
+* F-B Mocnik: [**A Novel Identifier Scheme for the ISEA Aperture 3 Hexagon Discrete Global Grid System.**](http://doi.org/10.1080/15230406.2018.1455157) Cartography and Geographic Information science, 2018
 
 ## Related Software
 
