@@ -22,9 +22,9 @@ The following publication is related to this framework and the used DGGS:
 
 Several extensions will be published, which allow to implement measures for specific data sources.  They will be announced soon.
 
-<!-- There exist different extensions that aid in implementing a measure for specific data sources:
+There exist different extensions that aid in implementing a measure for specific data sources:
 
-* [**Measure Rest OSHDB.**](https://github.com/giscience/measure-rest-oshdb) This extension aids in implementing measures that consume data from the [HeiGIT OSHDB](???). -->
+* [**Measure Rest OSHDB.**](https://github.com/giscience/measure-rest-oshdb) This extension aids in implementing measures that consume data from the [OpenStreetMap History Database (OSHDB)](https://github.com/giscience/oshdb).
 
 In addition, the REST interface is compatible with the JavaScript library [**geogrid.js**](https://github.com/giscience/geogrid.js), which visualizes measures as a layer to [Leaflet](http://leafletjs.com).  This framework makes extensive use of the library [**geogrid**](https://github.com/giscience/geogrid) that computes and handles Discrete Global Grid Systems (DGGS).
 
