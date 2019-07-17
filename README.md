@@ -26,7 +26,7 @@ There exist different extensions that aid in implementing a measure for specific
 
 * [**Measure Rest OSHDB.**](https://github.com/giscience/measures-rest-oshdb) This extension aids in implementing measures that consume data from the [OpenStreetMap History Database (OSHDB)](https://github.com/giscience/oshdb).
 
-In addition, the REST interface is compatible with the JavaScript library [**geogrid.js**](https://github.com/giscience/geogrid.js), which visualizes measures as a layer to [Leaflet](http://leafletjs.com).  This framework makes extensive use of the library [**geogrid**](https://github.com/giscience/geogrid) that computes and handles Discrete Global Grid Systems (DGGS).
+In addition, the REST interface is compatible with the JavaScript library [**geogrid.js**](https://github.com/mocnik-science/geogrid.js), which visualizes measures as a layer to [Leaflet](http://leafletjs.com).  This framework makes extensive use of the library [**geogrid**](https://github.com/mocnik-science/geogrid) that computes and handles Discrete Global Grid Systems (DGGS).
 
 ## Implementing a Measure
 
@@ -45,7 +45,7 @@ Observe that the class name of the measure (`MeasureExample`) will automatically
 
 The method `compute` needs to be overwritten by an implementation of the actual measure.  The bounding box for which data should be aggregated is provided as parameter `bbox`; the date to compute the measure for, as parameter `date`; and, in case that the measure refers to a time span, the start of the timespan, as parameter `dateFrom`.  Furthermore, the computation can refer to additional parameters.  The parameter `"key"` can be accessed by `p.get("key").toString()` in case of a string parameter, `p.get("key").toInteger()` in case of an integer parameter, and `p.get("key").toDouble()` in case of a double parameter.  The default value of a parameter can be overwritten by `p.setDefault("key", "default value")`.
 
-The result is a `SortedMap` with `GridCell` as keys and `R` as values.  Here, `GridCell` refers to the corresponding class of the library [geogrid](https://github.com/giscience/geogrid), which represents a grid cell.  The aggregation has to be implemented manually though it can use the functions provided by geogrid.  In particular, the `GridCell` for a tuple of coordinates can be computed as
+The result is a `SortedMap` with `GridCell` as keys and `R` as values.  Here, `GridCell` refers to the corresponding class of the library [geogrid](https://github.com/mocnik-science/geogrid), which represents a grid cell.  The aggregation has to be implemented manually though it can use the functions provided by geogrid.  In particular, the `GridCell` for a tuple of coordinates can be computed as
 ```java
 this._grid.cellForLocation(lat, lon);
 ```
@@ -94,7 +94,7 @@ restServer.setGridCellIDType(GridCellIDType.ADAPTIVE_UNIQUE);
 restServer.run();
 ```
 
-The default value is `ADAPTIVE_1_PERCENT`. For further information refer to [**geogrid**](https://github.com/giscience/geogrid).
+The default value is `ADAPTIVE_1_PERCENT`. For further information refer to [**geogrid**](https://github.com/mocnik-science/geogrid).
 
 ## Accessing a Measure by the REST Interface
 
@@ -102,7 +102,7 @@ When having started the server, the registered measures can be accessed by the R
 
 [`http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63`](http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63)
 
-Here, the bounding box is provided as minimum and maximum of the longitude and the latitude respectively (more information below in the description of the parameters).  As a result, a JSON response is returned which consists of the identifiers (IDs) of the grid cells (see [geogrid](https://github.com/giscience/geogrid)), as well as of the corresponding value of the measure:
+Here, the bounding box is provided as minimum and maximum of the longitude and the latitude respectively (more information below in the description of the parameters).  As a result, a JSON response is returned which consists of the identifiers (IDs) of the grid cells (see [geogrid](https://github.com/mocnik-science/geogrid)), as well as of the corresponding value of the measure:
 
 ```json
 {
@@ -226,9 +226,9 @@ RestServer restServer = new RestServer("http://localhost:8080", new CacheMemory(
 
 ## Visualization
 
-The REST interface of this framework is compatible with the JavaScript library [geogrid.js](https://github.com/giscience/geogrid.js), which visualizes measures as a layer to [Leaflet](http://leafletjs.com):
+The REST interface of this framework is compatible with the JavaScript library [geogrid.js](https://github.com/mocnik-science/geogrid.js), which visualizes measures as a layer to [Leaflet](http://leafletjs.com):
 
-![Overview](https://github.com/giscience/geogrid.js/blob/master/docs/images/screenshot.jpg)
+![Overview](https://github.com/mocnik-science/geogrid.js/blob/master/docs/images/screenshot.jpg)
 
 ## Author
 
