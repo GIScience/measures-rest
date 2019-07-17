@@ -45,7 +45,7 @@
             <version>2.25.1</version>
         </dependency>
         <dependency>
-            <groupId>com.github.giscience</groupId>
+            <groupId>com.github.mocnik-science</groupId>
             <artifactId>geogrid</artifactId>
             <version>-SNAPSHOT</version>
         </dependency>
