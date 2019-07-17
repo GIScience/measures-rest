@@ -4,7 +4,7 @@ The framework `Measures REST` provides a REST server for measures.  In the conte
 
 ## Overview
 
-The framework provided by this repository is a framework only: if measures are provided, the resulting data can be cached and then be accessed by a REST interface.  The measures themselves rely on external data sources, which are independent of this framework.  Measures have, accordingly, to be written on an individual basis, referring to external data sources.  Whenever someone requests a measure by the REST interface, the REST server evaluates the corresponding measure and caches the data.
+The framework provided by this repository is a framework only: if measures are provided, the resulting data can be cached and then be accessed by a REST interface.  The measures themselves rely on external data sources, which are independent of this framework.  Measures have, accordingly, to be written on an individual basis, referring to external data sources.  Whenever someone requests a measure via the REST interface, the REST server evaluates the corresponding measure and caches the data.
 
 ![Overview](https://github.com/giscience/measures-rest/blob/master/docs/images/overview.svg)
 
@@ -96,9 +96,9 @@ restServer.run();
 
 The default value is `ADAPTIVE_1_PERCENT`. For further information refer to [**geogrid**](https://github.com/mocnik-science/geogrid).
 
-## Accessing a Measure by the REST Interface
+## Accessing a Measure Via the REST Interface
 
-When having started the server, the registered measures can be accessed by the REST interface, which runs on `http://localhost:8080` by default.  A measure named `measure-example` can accordingly be evaluated by referring to `http://localhost:8080/api/measure-example`.  As parameters, the resolution of the grid and the bounding box need to be provided.  The complete URL is, for example, as follows:
+When having started the server, the registered measures can be accessed via the REST interface, which runs on `http://localhost:8080` by default.  A measure named `measure-example` can accordingly be evaluated by referring to `http://localhost:8080/api/measure-example`.  As parameters, the resolution of the grid and the bounding box need to be provided.  The complete URL is, for example, as follows:
 
 [`http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63`](http://localhost:8080/api/measure-example/grid?resolution=14&bbox=7.86,48.16,9.53,50.63)
 
