@@ -45,6 +45,11 @@
             <version>2.30</version>
         </dependency>
         <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.mocnik-science</groupId>
             <artifactId>geogrid</artifactId>
             <version>-SNAPSHOT</version>
