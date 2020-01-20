@@ -45,11 +45,6 @@
             <version>2.30</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
-            <version>2.30</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.mocnik-science</groupId>
             <artifactId>geogrid</artifactId>
             <version>-SNAPSHOT</version>
