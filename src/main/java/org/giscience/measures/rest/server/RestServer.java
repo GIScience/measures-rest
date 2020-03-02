@@ -9,12 +9,9 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
 
 /**
  *
@@ -22,8 +19,7 @@ import java.util.HashMap;
  */
 public class RestServer {
     private final URI _baseUrl;
-    private final Measures _measures = new Measures();
-    private final ResourceConfig _resourceConfig = new ResourceConfig();
+    private final Measures _measures = Measures.getInstance();
     private final Cache _cache;
     private GridCellIDType _gridCellIDType = GridCellIDType.ADAPTIVE_1_PERCENT;
     private boolean _compression;
@@ -69,30 +65,15 @@ public class RestServer {
         return this;
     }
 
-    @Path("/")
-    protected class Measures {
-        private final HashMap<String, Measure> _measures = new HashMap<>();
-
-        public void addMeasure(Measure measure) {
-            String id = measure.getId().replaceAll("(?<!^)(?=[A-Z])", "-").toLowerCase();
-            if (id.startsWith("measure-")) id = id.substring(8);
-            this._measures.put(id, measure);
-        }
-
-        @Path("/api/{measure}")
-        public Measure get(@PathParam("measure") String measure) {
-            return this._measures.getOrDefault(measure, null);
-        }
-    }
-
     public void run() throws IOException, InterruptedException {
-        this._resourceConfig.register(this._measures);
-        final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(this._baseUrl, this._resourceConfig, false);
+        ResourceConfig resourceConfig = new ResourceConfig();
+        resourceConfig.register(MeasuresResource.class);
+        final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(this._baseUrl, resourceConfig, false);
         if (this._compression) {
             CompressionConfig config = server.getListener("grizzly").getCompressionConfig();
             config.setCompressionMode(CompressionConfig.CompressionMode.FORCE);
             config.setCompressionMinSize(1);
-            config.setCompressableMimeTypes("application/json");
+            config.setCompressibleMimeTypes("application/json");
         }
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
         server.start();
