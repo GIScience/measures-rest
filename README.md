@@ -1,3 +1,5 @@
+[![status: hibernate](https://github.com/GIScience/badges/raw/master/status/hibernate.svg)](https://github.com/GIScience/badges#hibernate)
+
 # Measures REST
 
 The framework `Measures REST` provides a REST server for measures.  In the context of this software, a measure is regarded as being a distribution of values on Earth, aggregated by some Discrete Global Grid System (DGGS).  Measures refer to properties of the data, or to how a dataset has been created.  Typical examples of measures are data quality measures or measures of the fitness for purpose.
@@ -232,7 +234,7 @@ The REST interface of this framework is compatible with the JavaScript library [
 
 ## Author
 
-This software is currently maintained by Sascha Fendrich, <sascha.fendrich@uni-heidelberg.de>, and Lukas Loos, <lukas.loos@uni-heidelberg.de>, HeiGIT gGmbH.
+This software is currently maintained by Sascha Fendrich, <sascha.fendrich@uni-heidelberg.de>, HeiGIT gGmbH.
 
 In 2017–2019, this software has been developed and maintained by Franz-Benjamin Mocnik, <mocnik@uni-heidelberg.de>, GIScience Research Group, Institute of Geography, Heidelberg University. The development has been supported by the DFG project *A framework for measuring the fitness for purpose of OpenStreetMap data based on intrinsic quality indicators* (FA 1189/3-1).
 
